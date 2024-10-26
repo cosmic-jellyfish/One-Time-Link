@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Content</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/11695/11695850.png" type="image/png">
+</head>
+<body>
+    <div class="content-container">
+        <h2>One-Time Content Viewer</h2>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+
+        <!-- Display Content Here with Copy Icon -->
+        <div id="contentDisplay" style="display: none;"> <!-- Hidden initially -->
+            <pre id="contentText"></pre> <!-- No initial content -->
+
+            <!-- Copy Icon Button -->
+            <span id="copyButton" class="copy-btn" title="Copy">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M19.53 8L14 2.47a.75.75 0 0 0-.53-.22H11A2.75 2.75 0 0 0 8.25 5v1.25H7A2.75 2.75 0 0 0 4.25 9v10A2.75 2.75 0 0 0 7 21.75h7A2.75 2.75 0 0 0 16.75 19v-1.25H17A2.75 2.75 0 0 0 19.75 15V8.5a.75.75 0 0 0-.22-.5m-5.28-3.19l2.94 2.94h-2.94Zm1 14.19A1.25 1.25 0 0 1 14 20.25H7A1.25 1.25 0 0 1 5.75 19V9A1.25 1.25 0 0 1 7 7.75h1.25V15A2.75 2.75 0 0 0 11 17.75h4.25ZM17 16.25h-6A1.25 1.25 0 0 1 9.75 15V5A1.25 1.25 0 0 1 11 3.75h1.75V8.5a.76.76 0 0 0 .75.75h4.75V15A1.25 1.25 0 0 1 17 16.25" />
+                </svg>
+            </span>
+        </div>
+
+        <!-- Copy Notification Pop-up -->
+        <div id="copyNotification" class="copy-notification">Content copied</div>
+
+        <!-- Link Creation Prompt -->
+        <div class="create-link-prompt">
+            <p>Need to create a one-time link?</p>
+            <a href="/" class="create-link-btn">Go to Home Page</a>
+        </div>
+    </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+        <p>Made with ❤️ by <a href="https://github.com/cosmic-jellyfish" target="_blank">@cosmic-jellyfish</a></p>
+        </footer>
+
+    <script>
+        const contentId = window.location.pathname.split('/').pop().toLowerCase();
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const contentDisplay = document.getElementById('contentDisplay');
+        const contentText = document.getElementById('contentText');
+        const copyButton = document.getElementById('copyButton');
+        const notification = document.getElementById('copyNotification');
+
+        // Copy Content Functionality
+        copyButton.addEventListener('click', () => {
+            if (!contentText.classList.contains('error')) {
+                navigator.clipboard.writeText(contentText.textContent).then(() => {
+                    // Show copy notification
+                    notification.classList.add('show');
+                    setTimeout(() => notification.classList.remove('show'), 2000);
+                }).catch(err => console.error('Could not copy text:', err));
+            }
+        });
+
+        // Fetch Content Functionality
+        fetch(`/api/content/${contentId}`, {
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+            if (response.status === 410) throw new Error('This content has already been viewed or has expired');
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            return response.json();
+        })
+        .then(data => {
+            if (data.content) {
+                contentText.textContent = data.content;
+                copyButton.style.display = 'inline-flex';
+            } else {
+                contentText.textContent = data.message || 'Content not available.';
+                contentText.classList.add('error');
+                copyButton.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            contentText.textContent = error.message || 'An unexpected error occurred.';
+            contentText.classList.add('error');
+            copyButton.style.display = 'none';
+        })
+        .finally(() => {
+            loadingSpinner.style.display = 'none';
+            contentDisplay.style.display = 'flex';
+        });
+    </script>
+</body>
+</html>

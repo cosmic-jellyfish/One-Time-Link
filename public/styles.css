@@ -1,0 +1,396 @@
+/* ==================== */
+/*      SCROLLBAR      */
+/* ==================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ffffff22;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4e039e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6200ea;
+}
+
+
+/* ==================== */
+/*      MAIN BODY      */
+/* ==================== */
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #121212;
+    color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Starry Background */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffffff22, transparent 70%) 0% 0% / 3px 3px;
+    background-blend-mode: screen;
+    animation: twinkle 3s infinite alternate ease-in-out;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.7; }
+    to { opacity: 0.3; }
+}
+
+/* Main Container Styling */
+.container, .content-container {
+    background-color: #1e1e1e;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: auto;
+}
+
+.container:hover, .content-container:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* Title Styling */
+h1, h2 {
+    color: #e0e0e0;
+    font-size: 1.8em;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Form Styling */
+form {
+    display: grid;
+    gap: 20px;
+    justify-items: center;
+}
+
+/* Label Styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #b3b3b3;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+/* Input, Textarea & Button Styling */
+textarea, input[type="number"], button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    outline: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: inherit;
+}
+
+textarea:focus, input[type="number"]:focus {
+    background-color: #3a3a3a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+textarea {
+    resize: none;
+    min-height: 120px;
+}
+
+/* Custom Spinner Arrows for Number Input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Button Styling */
+button {
+    background-color: #6200ea;
+    color: #f0f0f0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(98, 0, 234, 0.4);
+}
+
+button:hover {
+    background-color: #7b00ff;
+    box-shadow: 0 4px 12px rgba(98, 0, 234, 0.6);
+}
+
+/* Link Display Styling */
+.result a {
+    color: #bb86fc;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 12px;
+}
+
+.result a:hover {
+    color: #e2b9ff;
+}
+
+/* Content Display Styling */
+#contentDisplay {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#contentDisplay pre {
+    flex: 1;
+    margin: 0;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+/* Copy Icon Styling */
+.copy-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    color: #bb86fc;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.2em;
+    transition: color 0.2s ease;
+    z-index: 10;
+}
+
+.copy-btn:hover {
+    color: #e2b9ff;
+}
+
+/* Copy Notification Styling */
+.copy-notification {
+    position: absolute;
+    bottom: 100%; 
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background-color: #333;
+    color: #f8f8f2;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.copy-notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+/* Fade-in Animation */
+.container, .content-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== */
+/*      POP UP STYLE    */
+/* ==================== */
+
+.popup {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+}
+
+.popup.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+
+/* ==================== */
+/*        FOOTER        */
+/* ==================== */
+
+.footer {
+    margin-top: auto;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.9em;
+    color: #aaa;
+    width: 100%;
+}
+
+.footer a {
+    color: #bb86fc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: #e2b9ff;
+}
+
+/* Create Link Prompt */
+.create-link-prompt {
+    margin-top: 20px;
+    text-align: center;
+    color: #bbb;
+}
+
+.create-link-prompt p {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.create-link-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6200ea;
+    color: #f0f0f0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.create-link-btn:hover {
+    background-color: #7b00ff;
+}
+
+/* ==================== */
+/*      MOBILE STYLE    */
+/* ==================== */
+
+@media (max-width: 800px) {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .container, .content-container {
+        padding: 20px;
+        width: 70%;
+        max-width: 100%;
+    }
+
+    h1, h2 {
+        font-size: 1.3em;
+        margin-bottom: 30px;
+    }
+
+    textarea, input[type="number"], button {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+
+    label {
+        font-size: 0.9em;
+    }
+
+    #contentDisplay {
+        padding: 15px;
+    }
+
+    .footer {
+        font-size: 0.8em;
+        padding: 8px 0;
+    }
+
+    .create-link-prompt p {
+        font-size: 0.9em;
+    }
+
+    .create-link-btn {
+        padding: 4px 14px;
+        font-size: 0.9em;
+    }
+}
+
+/* ==================== */
+/*      SPINNER STYLES  */
+/* ==================== */
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #bb86fc;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    animation-delay: -1.0s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+    }
+}
