@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-Time Link Generator</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/10464/10464776.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <h1>Create a One-Time Link</h1>
+        <form id="generateForm">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" placeholder="Enter your content here" required></textarea>
+            
+            <label for="expiresIn">Expires In (minutes)</label>
+            <input type="number" id="expiresIn" name="expiresIn" placeholder="e.g. 60" min="1">
+            
+            <!-- Button to generate link -->
+            <button type="submit" id="generateLinkBtn">Generate Link</button>
+        </form>
+        
+        <div class="result" id="linkDisplay" style="display: none;">
+            <h3>Your One-Time Link:</h3>
+            <a id="generatedLink" href="#" target="_blank">Generated Link</a>
+            <p id="expirationDisplay" class="expiration-info"></p>
+        </div>
+
+        <!-- Popup Notification -->
+        <div id="popupNotification" class="popup">Link copied to clipboard!</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with ❤️ by <a href="https://github.com/cosmic-jellyfish" target="_blank">@cosmic-jellyfish</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('generateForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Update button text to "Generating..." and disable it
+            const generateLinkBtn = document.getElementById('generateLinkBtn');
+            generateLinkBtn.textContent = 'Generating...';
+            generateLinkBtn.disabled = true;
+
+            const content = document.getElementById('content').value;
+            const expiresIn = document.getElementById('expiresIn').value || 60; // Defaults to 60 minutes incase it's empty
+
+            try {
+                const response = await fetch('api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content, expiresIn: parseInt(expiresIn) })
+                });
+
+                const data = await response.json();
+
+                if (data.link) {
+                    const link = data.link.replace('/content/', '/view/');
+                    const generatedLink = document.getElementById('generatedLink');
+                    
+                    // Update and show the link
+                    generatedLink.href = link;
+                    generatedLink.textContent = link;
+                    document.getElementById('linkDisplay').style.display = 'block';
+
+                    // Display expiration duration
+                    document.getElementById('expirationDisplay').textContent = `Expires in ${expiresIn} minutes`;
+
+                    // Copy link to clipboard
+                    await navigator.clipboard.writeText(link);
+                    
+                    // Show the popup notification
+                    showPopup();
+                } else {
+                    alert(data.message || 'An error occurred. Please try again.');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            } finally {
+                // Reset button text and enable it again
+                generateLinkBtn.textContent = 'Generate Link';
+                generateLinkBtn.disabled = false;
+            }
+        });
+
+        // Function to show popup notification
+        function showPopup() {
+            const popup = document.getElementById('popupNotification');
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
+</body>
+</html>
