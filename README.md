@@ -10,9 +10,9 @@ This project is released as open source to promote transparency and accessibilit
 
 
 ## Table of Contents
-- [Features](https://github.com/cosmic-jellyfish/1-timer/new/main?filename=README.md#features)
-- [Tech Stack](https://github.com/cosmic-jellyfish/1-timer/new/main?filename=README.md#tech-stack)
-- [Usage](https://github.com/cosmic-jellyfish/1-timer/new/main?filename=README.md#usage)
+- [Features](https://github.com/cosmic-jellyfish/One-Time-Link/edit/main/README.md#features)
+- [Tech Stack](https://github.com/cosmic-jellyfish/One-Time-Link/edit/main/README.md#tech-stack)
+- [Usage](https://github.com/cosmic-jellyfish/One-Time-Link/edit/main/README.md#usage)
 
 
 ## Features
