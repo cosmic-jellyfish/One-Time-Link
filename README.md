@@ -34,7 +34,7 @@ This project utilises:
 ## Usage
 ### Generating a One-Time Link
 
-- Go to the [home page](https://damn.not-so-cool.com/)
+- Go to the [home page](https://one-time-link.vercel.app/)
 - Enter the content you wish to share
 - Set the expiration time in minutes (*optional, defaults to 60 minutes*)
 - Click "Generate Link" and a unique one-time link will be created, copied to your clipboard, and shown on the screen.
