@@ -2,7 +2,7 @@
 
 This project allows users to create one-time links to securely share content. Once the link is accessed, it becomes invalid, ensuring that content is only viewable once.
 
-A live version of this project [can be found here!](https://damn.not-so-cool.com/)
+A live version of this project [can be found here!](https://one-time-link.vercel.app/)
 
 This project is released as open source to promote transparency and accessibility. I want others to benefit from the work I’ve done, whether it's for learning purposes or for enhancing their own projects.
 
