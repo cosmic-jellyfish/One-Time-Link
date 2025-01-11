@@ -39,7 +39,7 @@ app.post('/api/generate', async (req, res) => {
             return res.status(500).json({ message: 'Failed to create link', error });
         }
 
-        const fullUrl = `${req.protocol}://${req.get('host')}/view/${id}`;
+        const fullUrl = `https://${req.get('host')}/view/${id}`;
         res.json({ link: fullUrl });
     } catch (err) {
         res.status(500).json({ message: 'An unexpected error occurred' });
